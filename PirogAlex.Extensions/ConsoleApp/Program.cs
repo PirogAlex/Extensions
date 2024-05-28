@@ -92,7 +92,9 @@ namespace ConsoleApp
             Console.WriteLine("Дефолтный Path.Combine :" + Path.Combine("/ed/inside/", "/TestPositive4.pptx"));
             Console.WriteLine("    кроссплатформенный :" + CrossPlatform.PathCombine("/ed/inside/", "/TestPositive4.pptx"));
             Console.WriteLine();
-
+            Console.WriteLine("Дефолтный Path.Combine :" + Path.Combine("D:\\WORK Projects\\eDiscovery\\filesToSearchTest", "тест уведомления при обновлении файла.docx"));
+            Console.WriteLine("    кроссплатформенный :" + CrossPlatform.PathCombine("D:\\WORK Projects\\eDiscovery\\filesToSearchTest", "тест уведомления при обновлении файла.docx"));
+            Console.WriteLine();
         }
     }
 }
