@@ -1,9 +1,9 @@
 {
   "profiles": {
-    "ConsoleApp": {
+    "ConsoleApp - Windows": {
       "commandName": "Project"
     },
-    "Container (Dockerfile)": {
+    "Container (Dockerfile) - Linux": {
       "commandName": "Docker"
     }
   }
