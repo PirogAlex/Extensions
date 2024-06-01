@@ -23,6 +23,10 @@ namespace PirogAlex.ExtensionsLib.System
                 .ToArray();
             var totalLength = splits.Sum(arr => arr.Length);
             var segments = new string[totalLength + 1];
+
+            if (!basePath.EndsWith(LinuxPathDelimeter) && !basePath.EndsWith(WindowsPathDelimeter))
+                basePath += LinuxPathDelimeter;
+
             segments[0] = basePath;
             var i = 0;
             foreach (var split in splits)
@@ -36,6 +40,5 @@ namespace PirogAlex.ExtensionsLib.System
 
             return Path.Combine(segments);
         }
-
     }
 }

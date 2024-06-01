@@ -77,6 +77,9 @@ namespace ConsoleApp
             Console.WriteLine("Дефолтный Path.Combine :" + Path.Combine(Environment.CurrentDirectory, "\\abc\\abc"));
             Console.WriteLine("    кроссплатформенный :" + CrossPlatform.PathCombine(Environment.CurrentDirectory, "\\abc\\abc"));
             Console.WriteLine();
+            Console.WriteLine("Дефолтный Path.Combine File.Exists(...):" + File.Exists(Path.Combine(Environment.CurrentDirectory, "\\abc\\abc\\TestPositive.pptx")));
+            Console.WriteLine("    кроссплатформенный File.Exists(...):" + File.Exists(CrossPlatform.PathCombine(Environment.CurrentDirectory, "\\abc\\abc\\TestPositive.pptx")));
+            Console.WriteLine();
             Console.WriteLine("Дефолтный Path.Combine :" + Path.Combine(Environment.CurrentDirectory, "/abc/abc"));
             Console.WriteLine("    кроссплатформенный :" + CrossPlatform.PathCombine(Environment.CurrentDirectory, "/abc/abc"));
             Console.WriteLine();
@@ -94,6 +97,15 @@ namespace ConsoleApp
             Console.WriteLine();
             Console.WriteLine("Дефолтный Path.Combine :" + Path.Combine("D:\\WORK Projects\\eDiscovery\\filesToSearchTest", "тест уведомления при обновлении файла.docx"));
             Console.WriteLine("    кроссплатформенный :" + CrossPlatform.PathCombine("D:\\WORK Projects\\eDiscovery\\filesToSearchTest", "тест уведомления при обновлении файла.docx"));
+            Console.WriteLine();
+
+
+            Console.WriteLine();
+            Console.WriteLine("Ситуация такова, что агент(сторона работающая с полученным путём) и сервер(тот кто формирует путь) могут находится на разных OS Platform.");
+            Console.WriteLine("     Если агент будет на Windows, то он поймёт любой путь что сформирует сервер.");
+            Console.WriteLine("     Но если агент будет на Linux, то он поймёт путь что сформируется с косой чертой только как в браузере '/'." +
+                              " С такой чертой сервер на Linux и сервер на Windows формирует только в следующих случаях:");
+            Console.WriteLine("\"TestPositive2.pptx\" и \"/TestPositive4.pptx\".");
             Console.WriteLine();
         }
     }
