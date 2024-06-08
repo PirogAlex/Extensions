@@ -4,15 +4,25 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PirogAlex.ExtensionsLib.CrossPlatform.Interfaces;
 
 namespace PirogAlex.ExtensionsLib.CrossPlatform
 {
-    public class CrossPlatform
+    public class CrossPlatform : ICrossPlatform
     {
         private readonly char LinuxPathDelimiter = '/';
         private readonly char WindowsPathDelimiter = '\\';
 
         private readonly TargetPlatform _targetPlatform;
+
+        public static bool IsLinux
+        {
+            get
+            {
+                int p = (int)Environment.OSVersion.Platform;
+                return (p == 4) || (p == 6) || (p == 128);
+            }
+        }
 
         public CrossPlatform(TargetPlatform targetPlatform = TargetPlatform.Linux)
         {
@@ -22,41 +32,6 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
         public string GetAsPlatformPath(string inputPath)
         {
             return GetAsPlatformPathWithCorrectDelimiter(inputPath, false, false);
-        }
-
-        /// <summary>
-        /// Make sure base path are correct and exist
-        /// </summary>
-        /// <param name="basePath"></param>
-        /// <param name="additional"></param>
-        /// <returns></returns>
-        public string PathCombineV1(string basePath, params string[] additional)
-        {
-            var pathSplitCharacters = new[]
-            {
-                LinuxPathDelimiter,
-                WindowsPathDelimiter
-            };
-            var splits = additional.Select(s => s.Split(pathSplitCharacters))
-                .ToArray();
-            var totalLength = splits.Sum(arr => arr.Length);
-            var segments = new string[totalLength + 1];
-
-            if (!basePath.EndsWith(LinuxPathDelimiter) && !basePath.EndsWith(WindowsPathDelimiter))
-                basePath += LinuxPathDelimiter;
-
-            segments[0] = basePath;
-            var i = 0;
-            foreach (var split in splits)
-            {
-                foreach (var value in split)
-                {
-                    i++;
-                    segments[i] = value;
-                }
-            }
-
-            return Path.Combine(segments);
         }
 
         public string PathCombine(string basePath, params string[] additional)
