@@ -10,7 +10,7 @@ namespace ConsoleApp
         {
             Console.WriteLine("Hello, World!");
 
-            bool runAllTests = true;
+            bool runAllTests = false;
 
             //Подключение логгера если нужен
             //using var loggerFactory = LoggerFactory.Create(builder =>
@@ -30,7 +30,7 @@ namespace ConsoleApp
             {
                 Test1_PathCombine();
             }
-            //Test2_PathGetFileNameAndDirectoryName();
+            Test2_PathGetFileNameAndDirectoryName();
         }
 
         private static void Test2_PathGetFileNameAndDirectoryName()
@@ -52,14 +52,15 @@ namespace ConsoleApp
                Дефолтный Path.Combine (путь):D:\WORK Projects\eDiscovery\filesToSearchTest
                    кроссплатформенный (путь):???
              */
+            var crossPlatform = new CrossPlatform(TargetPlatform.Linux);
             Console.WriteLine();
             Console.WriteLine("Тест разбивки цельного пути на путь и имя файла...");
             //D:\WORK Projects\eDiscovery\filesToSearchTest\01. Ячейка на основном листе.xlsx
             var filePathWithName = "D:\\WORK Projects\\eDiscovery\\filesToSearchTest\\01. Ячейка на основном листе.xlsx";
             Console.WriteLine("Дефолтный Path.Combine (имя):" + Path.GetFileName(filePathWithName));
-            Console.WriteLine("    кроссплатформенный (имя):" + "???");
+            Console.WriteLine("    кроссплатформенный (имя):" + crossPlatform.PathGetFileName(filePathWithName));
             Console.WriteLine("Дефолтный Path.Combine (путь):" + Path.GetDirectoryName(filePathWithName));
-            Console.WriteLine("    кроссплатформенный (путь):" + "???");
+            Console.WriteLine("    кроссплатформенный (путь):" + crossPlatform.PathGetDirectoryName(filePathWithName));
             Console.WriteLine("Тест разбивки пути завершён!");
             Console.WriteLine();
         }

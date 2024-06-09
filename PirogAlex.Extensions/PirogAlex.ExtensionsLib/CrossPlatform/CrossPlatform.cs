@@ -15,7 +15,7 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
 
         private readonly TargetPlatform _targetPlatform;
 
-        public static bool IsLinux
+        public bool IsLinux
         {
             get
             {
@@ -24,7 +24,12 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
             }
         }
 
-        public CrossPlatform(TargetPlatform targetPlatform = TargetPlatform.Linux)
+        public CrossPlatform()
+        {
+            _targetPlatform = IsLinux ? TargetPlatform.Linux : TargetPlatform.Windows;
+        }
+
+        public CrossPlatform(TargetPlatform targetPlatform)
         {
             _targetPlatform = targetPlatform;
         }
@@ -32,6 +37,11 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
         public string GetAsPlatformPath(string inputPath)
         {
             return GetAsPlatformPathWithCorrectDelimiter(inputPath, false, false);
+        }
+
+        public string GetAsPlatformPath(string inputPath, TargetPlatform targetPlatform)
+        {
+            return GetAsPlatformPathWithCorrectDelimiter(inputPath, false, false, targetPlatform);
         }
 
         public string PathCombine(string basePath, params string[] additional)
@@ -55,8 +65,13 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
 
         private string GetAsPlatformPathWithCorrectDelimiter(string inputPath, bool correctStartDelimiter, bool correctEndDelimiter)
         {
+            return GetAsPlatformPathWithCorrectDelimiter(inputPath, correctStartDelimiter, correctEndDelimiter, _targetPlatform);
+        }
+
+        private string GetAsPlatformPathWithCorrectDelimiter(string inputPath, bool correctStartDelimiter, bool correctEndDelimiter, TargetPlatform targetPlatform)
+        {
             string asPlatformPath;
-            if (_targetPlatform == TargetPlatform.Linux)
+            if (targetPlatform == TargetPlatform.Linux)
             {
                 asPlatformPath = inputPath.Replace(WindowsPathDelimiter, LinuxPathDelimiter);
                 asPlatformPath = ManipulationWithDelimiter(asPlatformPath, LinuxPathDelimiter, correctStartDelimiter, correctEndDelimiter);
@@ -80,6 +95,38 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
                 asPlatformPath += delimiter;
 
             return asPlatformPath;
+        }
+
+        public string PathGetFileName(string fullPath)
+        {
+            var str = GetAsPlatformPath(fullPath);
+            var fileName = Path.GetFileName(str);
+            if (IsLinux && _targetPlatform == TargetPlatform.Windows)
+            {
+                //В Linux с путями для Windows платформы у Path.GetFileName поведение сбоит. Потому обрабатываем иначе...
+                str = GetAsPlatformPath(fullPath, TargetPlatform.Linux);
+                fileName = Path.GetFileName(str);
+            }
+
+            return fileName;
+        }
+
+        public string PathGetDirectoryName(string fullPath)
+        {
+            var str = GetAsPlatformPath(fullPath);
+            var directoryName = Path.GetDirectoryName(str);
+            if (IsLinux && _targetPlatform == TargetPlatform.Windows)
+            {
+                //В Linux с путями для Windows платформы у Path.GetDirectoryName поведение сбоит. Потому обрабатываем иначе...
+                str = GetAsPlatformPath(fullPath, TargetPlatform.Linux);
+                directoryName = Path.GetDirectoryName(str);
+                if (string.IsNullOrEmpty(directoryName))
+                    return string.Empty;
+
+                directoryName = GetAsPlatformPath(directoryName);
+            }
+
+            return directoryName;
         }
     }
 }
