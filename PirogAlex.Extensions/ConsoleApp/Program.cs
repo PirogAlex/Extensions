@@ -39,20 +39,22 @@ namespace ConsoleApp
              Linux:
 
                Дефолтный Path.Combine (имя):D:\WORK Projects\eDiscovery\filesToSearchTest\01. Ячейка на основном листе.xlsx
-                   кроссплатформенный (имя):???
+                   кроссплатформенный (имя):1. Ячейка на основном листе.xlsx
                Дефолтный Path.Combine (путь):
-                   кроссплатформенный (путь):???
+                   кроссплатформенный (путь):D:/WORK Projects/eDiscovery/filesToSearchTest
+                   кроссплатформенный (путь):D:\WORK Projects\eDiscovery\filesToSearchTest
+                            направление слэша зависит от целевой платформы
              */
 
             /*
              Windows:
 
                Дефолтный Path.Combine (имя):01. Ячейка на основном листе.xlsx
-                   кроссплатформенный (имя):???
+                   кроссплатформенный (имя):01. Ячейка на основном листе.xlsx
                Дефолтный Path.Combine (путь):D:\WORK Projects\eDiscovery\filesToSearchTest
-                   кроссплатформенный (путь):???
+                   кроссплатформенный (путь):D:\WORK Projects\eDiscovery\filesToSearchTest
              */
-            var crossPlatform = new CrossPlatform(TargetPlatform.Linux);
+            var crossPlatform = new CrossPlatform(TargetPlatform.Windows);
             Console.WriteLine();
             Console.WriteLine("Тест разбивки цельного пути на путь и имя файла...");
             //D:\WORK Projects\eDiscovery\filesToSearchTest\01. Ячейка на основном листе.xlsx

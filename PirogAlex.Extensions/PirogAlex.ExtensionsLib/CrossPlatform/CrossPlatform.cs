@@ -55,10 +55,12 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
             }
 
             var combine = Path.Combine(segments);
-            //В Linux у Path.Combine есть особенность. Перед каждым сегментом автоматически и всегда добавляется косая черта. Получается лишний уровень вложенности и кривой путь.
-            //      Этот лайфхак исправляет ситуацию
-            if (_targetPlatform == TargetPlatform.Windows)
+            if (IsLinux && _targetPlatform == TargetPlatform.Windows)
+            {
+                //В Linux у Path.Combine есть особенность. Перед каждым сегментом автоматически и всегда добавляется косая черта. Получается лишний уровень вложенности и кривой путь.
+                //      Этот лайфхак исправляет ситуацию
                 return combine.Replace(LinuxPathDelimiter.ToString(), string.Empty);
+            }
 
             return combine;
         }
@@ -113,6 +115,11 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
 
         public string PathGetDirectoryName(string fullPath)
         {
+            return PathGetDirectoryName(fullPath, false);
+        }
+
+        public string PathGetDirectoryName(string fullPath, bool returnPathLikeSourcePlatform)
+        {
             var str = GetAsPlatformPath(fullPath);
             var directoryName = Path.GetDirectoryName(str);
             if (IsLinux && _targetPlatform == TargetPlatform.Windows)
@@ -126,7 +133,15 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
                 directoryName = GetAsPlatformPath(directoryName);
             }
 
-            return directoryName;
+            if (!string.IsNullOrEmpty(directoryName) && returnPathLikeSourcePlatform)
+            {
+                if (fullPath.Contains(LinuxPathDelimiter))
+                    directoryName = GetAsPlatformPath(directoryName, TargetPlatform.Linux);
+                else if (fullPath.Contains(WindowsPathDelimiter))
+                    directoryName = GetAsPlatformPath(directoryName, TargetPlatform.Windows);
+            }
+
+            return directoryName ?? string.Empty;
         }
     }
 }
