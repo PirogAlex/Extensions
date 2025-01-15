@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
 	<metadata>
 		<id>PirogAlex.ExtensionsLib</id>
-		<version>1.2.2</version>
+		<version>1.2.3</version>
 		<!--<title>$title$</title>-->
 		<authors>PirogAlex</authors>
 		<description>
@@ -12,7 +12,7 @@
 
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<license type="expression">MIT</license>
-		<copyright>Home sweet home, 2024</copyright>
+		<copyright>Home sweet home, 2025</copyright>
 
 		<!-- <icon>icon.png</icon> -->
 		<projectUrl>https://github.com/PirogAlex/Extensions</projectUrl>
