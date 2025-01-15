@@ -46,6 +46,11 @@ namespace PirogAlex.ExtensionsLib.CrossPlatform
 
         public string PathCombine(string basePath, params string[] additional)
         {
+            //Так как находятся "умельцы", что пытаются соединять пустые сегменты, то вводим защиту от этих проказников.
+            //  В реальной жизни создать папку без имени нет возможности. Но в тестах умудряются и не такое :)
+            basePath = basePath.Trim();
+            additional = additional.Where(obj => !string.IsNullOrEmpty(obj.Trim())).ToArray();
+
             var segments = new string[additional.Length + 1];
 
             segments[0] = GetAsPlatformPathWithCorrectDelimiter(basePath, false, additional.Length > 0);
